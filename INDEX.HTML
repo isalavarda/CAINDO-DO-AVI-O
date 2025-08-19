@@ -1,0 +1,50 @@
+import graphviz
+
+# Criar o fluxograma
+dot = graphviz.Digraph(comment="Fluxograma - Aventura Avião", format='png')
+
+# Nó inicial
+dot.node("start", "Você está em um avião", shape="oval", style="filled", fillcolor="#FFD966")
+
+# Primeira escolha
+dot.node("queda", "Ele cai em uma ilha perdida", shape="box")
+dot.node("parado", "Ele precisa fazer um pouso de emergência no deserto", shape="box")
+
+dot.edge("start", "queda")
+dot.edge("start", "parado")
+
+# Caminho ilha perdida
+dot.node("cabana", "Você constrói uma cabana,\nacha frutos e água doce", shape="box")
+dot.edge("queda", "cabana")
+
+dot.node("explorar", "Você começa a explorar a ilha", shape="box")
+dot.edge("cabana", "explorar")
+
+dot.node("indios", "Você encontra índios amigáveis", shape="box")
+dot.edge("explorar", "indios")
+
+dot.node("indios_conf", "Os índios te acolhem e você convive com eles", shape="box")
+dot.node("indios_host", "Os índios te acham perigoso e te expulsam", shape="box")
+dot.edge("indios", "indios_conf")
+dot.edge("indios", "indios_host")
+
+dot.node("helicoptero", "Você acena para um helicóptero de resgate", shape="box")
+dot.edge("indios_host", "helicoptero")
+
+dot.node("resgate", "O helicóptero pousa e te salva", shape="box")
+dot.edge("helicoptero", "resgate")
+
+# Caminho pouso de emergência no deserto
+dot.node("fome", "Um leão aparece e você tenta lutar, mas morre", shape="box")
+dot.node("estranho", "Aparece um estranho, você foge, mas ele é amigável", shape="box")
+dot.edge("parado", "fome")
+dot.edge("parado", "estranho")
+
+dot.node("ajuda", "O estranho te ajuda e vocês procuram comida juntos", shape="box")
+dot.edge("estranho", "ajuda")
+
+# Renderizar
+output_path = "/mnt/data/fluxograma_historia_aviao"
+dot.render(output_path, cleanup=True)
+
+output_path + ".png"
